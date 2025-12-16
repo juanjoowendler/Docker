@@ -1,58 +1,93 @@
-# DOCKER
 
-#### Links:
+# Docker 
 
-* Dockerhub: https://hub.docker.com/
-* Docker samples: https://docs.docker.com/reference/samples/
-* Simple Deploy (Digital Ocean): https://www.digitalocean.com/?utm_content=&gad_campaignid=22994390146
+---
 
-#### Basic commands:
+## Recursos útiles
 
-* docker build -t `<nombre>`: create docker image
-* docker run `<nombre>`: search locally for the image and if not found then download it from the internet and run
-* docker run -it `<nombre>`: search locally for the image and if not found then download it from the internet and run interactively
-* docker image ls: list all images in my computer
-* docker ps: show process/containers running
-* docker ps -a: show stopped processes
-* docker images: show all previous created images
-* docker image rm `<nombre>`
-* docker create [nombre:tag](nombre:tag)
-* docker create --name `<nombre>`
-* docker start `<nombre>`
-* docker stop `<nombre>`
-* docker ps
-* docker ps -a
-* docker container rm `<nombre>`
-* docker exec -it `<nombre>` <shell_utilizada(bash,sh,etc)>
-* docker volume [crete, inspect] `<nombre>`
-* docker cp `<id-contenedor>`:/app/`<nombre-archivo>` .
-* docker container ls
-* docker container ls -a
-* docker container rm -f $(docker container ls -aq): delete all containers
-* docker images
-* docker image ls
-* docker image -q
-* docker image rm $(docker image ls -q): delete all images
+* Docker Hub: [https://hub.docker.com/](https://hub.docker.com/)
+* Docker Samples (oficial): [https://docs.docker.com/reference/samples/](https://docs.docker.com/reference/samples/)
+* Simple Deploy (DigitalOcean): [https://www.digitalocean.com/](https://www.digitalocean.com/)
 
-#### Docker compose:
+---
 
-* docker compose
-* docker compose up
-* docker compose build
-* docker compose logs -ft
-* docker compose ps
-* docker compose down
-* docker network ls
+## Conceptos clave
 
-## Dockerfile
+* **Imagen** : plantilla inmutable para crear contenedores.
+* **Contenedor** : instancia en ejecución de una imagen.
+* **Dockerfile** : archivo con instrucciones para construir una imagen.
+* **Docker Compose** : herramienta para definir y correr aplicaciones con múltiples contenedores.
+* **Volúmenes** : persistencia de datos fuera del ciclo de vida del contenedor.
+* **Redes** : permiten la comunicación entre contenedores.
 
-* FROM: indicates the base image
-* WORKDIR: change the work directory
-* COPY: copy project files into the contaiener
-* ADD: add files
-* RUN: execute commands
-* ENV: add environment variables
-* EXPOSE:  expose applications ports
-* USER:  add user and its privileges
-* CMD: specify the command that will be execute when we execute the container
-* ENTRYPOINT: specify the command that will be execute when we execute the container
+---
+
+## Comandos más utilizados 
+
+### Imágenes
+
+* `docker build -t nombre:tag .` → Construir una imagen
+* `docker images` / `docker image ls` → Listar imágenes
+* `docker image rm imagen` → Eliminar imagen
+
+### Contenedores
+
+* `docker run nombre` → Crear y ejecutar contenedor
+* `docker run -it nombre` → Ejecutar en modo interactivo
+* `docker run -d -p 8080:80 nombre` → Ejecutar en segundo plano y mapear puertos
+* `docker ps` → Contenedores en ejecución
+* `docker ps -a` → Todos los contenedores
+* `docker stop contenedor` → Detener contenedor
+* `docker rm contenedor` → Eliminar contenedor
+* `docker exec -it contenedor bash` → Entrar a un contenedor
+
+### Limpieza rápida
+
+* `docker container rm -f $(docker container ls -aq)` → Eliminar todos los contenedores
+* `docker image rm $(docker image ls -q)` → Eliminar todas las imágenes
+
+---
+
+## Volúmenes y archivos
+
+* `docker volume create nombre` → Crear volumen
+* `docker volume inspect nombre` → Inspeccionar volumen
+* `docker cp contenedor:/ruta/archivo .` → Copiar archivos desde un contenedor
+
+---
+
+## Docker Compose
+
+Comandos más habituales:
+
+* `docker compose up` → Levantar servicios
+* `docker compose up -d` → Levantar en segundo plano
+* `docker compose build` → Construir imágenes
+* `docker compose ps` → Ver estado de servicios
+* `docker compose logs -f` → Ver logs
+* `docker compose down` → Detener y eliminar servicios
+
+---
+
+## Dockerfile — instrucciones principales
+
+* `FROM` → Imagen base
+* `WORKDIR` → Directorio de trabajo
+* `COPY` → Copiar archivos al contenedor
+* `ADD` → Copiar/descargar archivos (menos usado que COPY)
+* `RUN` → Ejecutar comandos durante el build
+* `ENV` → Variables de entorno
+* `EXPOSE` → Documentar puertos usados por la app
+* `USER` → Usuario que ejecuta el contenedor
+* `CMD` → Comando por defecto (reemplazable)
+* `ENTRYPOINT` → Comando fijo de arranque
+
+---
+
+## Buenas prácticas 
+
+* Usar imágenes oficiales y livianas (alpine)
+* Minimizar capas en el Dockerfile
+* No guardar secretos en imágenes
+* Usar `.dockerignore`
+* Preferir `COPY` sobre `ADD`
